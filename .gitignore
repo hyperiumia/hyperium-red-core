@@ -1,6 +1,4 @@
-# Source code protected
-target/
-
 # Runtime
 *.db
+target/
 
