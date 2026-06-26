@@ -1,0 +1,14 @@
+# Source code
+src/
+*.rs
+Cargo.toml
+Cargo.lock
+
+# Build
+target/
+
+# Runtime
+*.db
+*.json
+!Cargo.toml
+
