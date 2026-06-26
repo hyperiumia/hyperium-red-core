@@ -1,14 +1,6 @@
-# Source code
-src/
-*.rs
-Cargo.toml
-Cargo.lock
-
-# Build
+# Source code protected
 target/
 
 # Runtime
 *.db
-*.json
-!Cargo.toml
 
