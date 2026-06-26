@@ -3,7 +3,7 @@
 **Author:** Patricio Tirado — CEO, Hyperiumia
 **Contact:** hyperiumia@protonmail.com
 **Language:** Rust 2021 Edition
-**Status:** Phase 1 — Core Modules Complete
+**Status:** Phase 1 Complete — Recon + Evidence Chain
 
 ---
 
@@ -17,13 +17,23 @@ Not a scanner. Not a simulator. An engine that executes real techniques and docu
 
 | Module | File | Purpose |
 |--------|------|---------|
-| Types | types.rs | Core data structures (Target, Evidence, Finding, Dictamen) |
-| Error | error.rs | Centralized error handling |
+| Types | types.rs | 13 core data structures (Target, Evidence, Finding, Dictamen) |
+| Error | error.rs | 7 centralized error types |
 | Evidence Chain | evidence.rs | SHA-256 chained tamper-evident audit trail |
 | MITRE Database | mitre.rs | 31 ATT&CK techniques across 6 kill chain phases |
 | Impact Engine | impact.rs | Business impact calculation (financial + regulatory) |
 | Compliance | compliance.rs | PCI DSS 4.0, GDPR, NIST, HIPAA, SOC 2, NIS2, PTES |
-| CLI | main.rs | Command-line interface with 5 commands |
+| **Recon Engine** | **recon.rs** | **TCP port scan, banner grabbing, service detection, OS fingerprint, ping sweep** |
+| CLI | main.rs | Command-line interface with 8 commands |
+
+## Recon Engine (NEW)
+
+- TCP connect scan with configurable timeout
+- Banner grabbing (SSH, HTTP, FTP, SMTP, MySQL, VNC)
+- Service detection from banners + port heuristics
+- OS fingerprinting (Windows/Linux/macOS) from port + banner analysis
+- Network discovery (ping sweep on /24 networks)
+- Evidence sealing per scan operation (MITRE T1046, T1592)
 
 ## Evidence Chain
 
@@ -40,43 +50,32 @@ Every action sealed with chained SHA-256. Mathematically impossible to alter his
 - Lateral Movement (4)
 - Persistence (5)
 - Defense Evasion (1)
-- Collection / Exfiltration (3)
-- Impact (2)
+- Collection / Exfiltration / Impact (2)
 
 ## Tests
 
-34 unit tests across 6 modules, all passing.
+50 unit tests across 7 modules, all passing.
 
 ## CLI Commands
 
 - `red-core info` — System info
-- `red-core techniques` — List all techniques
-- `red-core technique T1046` — Technique details
-- `red-core technique T1046 --compliance` — Compliance mapping
+- `red-core techniques` — List all 31 techniques
+- `red-core technique T1046 --compliance` — Technique details + compliance
 - `red-core authorize --client ...` — Authorization flow
 - `red-core compliance` — Supported frameworks
-
-## Screenshots
-
-- 01-tests-passing.png — 34 tests all green
-- 02-info.png — System info display
-- 03-techniques.png — Full technique list (31)
-- 04-technique-T1190.png — Exploit Public-Facing App + compliance
-- 05-technique-T1003.png — LSASS Memory + compliance
-- 06-compliance.png — Supported frameworks
-- 07-authorize.png — Authorization flow
-- 08-techniques-exploitation.png — Filtered by phase
-- 09-techniques-safe.png — Safe-only filter
-- 10-json-output.png — JSON output
+- `red-core recon <target>` — Full reconnaissance (ports + banners + OS + evidence)
+- `red-core scan <target> --ports 22,80,443` — Targeted port scan
+- `red-core discover --network 192.168.1.0/24` — Network host discovery
 
 ## Roadmap
 
-- v0.5: Recon module (network discovery, service enumeration)
-- v0.7: Exploitation module (vulnerability exploitation)
-- v0.9: Post-exploitation (credential harvesting, lateral movement)
-- v1.0: Dictamen generation, dashboard, REST API, full kill chain
+- v0.5: Exploitation module (CVE-based, vulnerability matching)
+- v0.7: Post-exploitation (credential harvesting, lateral movement)
+- v0.9: Persistence + full kill chain orchestration
+- v1.0: Dictamen generation, dashboard, REST API, Wazuh SIEM
 
 ---
 
-**Hyperiumia — https://github.com/hyperiumia/hyperium-red-core**
+**Source code is private. Demo available upon request.**
 
+**Hyperiumia — https://github.com/hyperiumia/hyperium-red-core**
