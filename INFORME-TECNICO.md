@@ -634,6 +634,103 @@ Ano 2: $2.4M (25 Assessment + 15 Continuous + 5 Enterprise + 2 MOD)
 
 ---
 
-**Hyperium RED-CORE v0.1.0 -- Informe Tecnico Completo**
+---
+
+## FASE 2 — RED-CORE v0.5.0: Exploitation + Cleanup + State Engine
+
+### Nuevo: Motor de Explotacion (exploit.rs)
+
+15 tecnicas CVE-based de explotacion, cada una con:
+- `create_command`: Comando para ejecutar la tecnica
+- `cleanup_command`: Comando para revertir la accion
+- `detection_difficulty`: Easy, Medium, Hard
+- `access_level`: User, Admin, Root, System, NetworkService
+
+| ID | Tecnica | CVE | Severidad | Acceso |
+|----|---------|-----|-----------|--------|
+| T1190 | Log4Shell Injection | CVE-2021-44228 | CRITICAL | SYSTEM |
+| T1190 | SQL Injection Auth Bypass | - | CRITICAL | Admin |
+| T1190 | File Upload RCE | - | CRITICAL | SYSTEM |
+| T1110 | SSH Brute Force | - | HIGH | User |
+| T1110 | RDP Brute Force | - | HIGH | Admin |
+| T1210 | SMB EternalBlue | CVE-2017-0144 | CRITICAL | SYSTEM |
+| T1210 | WinRM Remote Execution | - | HIGH | SYSTEM |
+| T1059 | PowerShell Remoting | - | HIGH | Admin |
+| T1003 | SAM Database Dump | - | CRITICAL | SYSTEM |
+| T1003.001 | LSASS Memory Dump | - | CRITICAL | SYSTEM |
+| T1550.002 | Pass the Hash | - | CRITICAL | Admin |
+| T1021.001 | RDP Lateral Movement | - | HIGH | Admin |
+| T1053.005 | Scheduled Task Persistence | - | HIGH | SYSTEM |
+| T1543.003 | Malicious Windows Service | - | CRITICAL | SYSTEM |
+| T1505.003 | Web Shell Deployment | - | CRITICAL | SYSTEM |
+
+### Nuevo: Motor de Limpieza (cleanup.rs)
+
+Cada accion ofensiva se registra automaticamente para reversion:
+
+1. Cuando una tecnica se ejecuta exitosamente, CleanupEngine.track() la registra
+2. Al final del engagement, cleanup_all() ejecuta las acciones de limpieza en orden inverso
+3. Cada accion de limpieza se sella en la cadena de evidencia SHA-256
+4. Se genera un script de limpieza automatizado
+
+**Principio Legal (Julio Tirado, Legal Counsel):**
+"Ninguna accion ofensiva dejara vulnerabilidades residuales o brechas de seguridad no documentadas."
+
+### Nuevo: Motor de Estado (state.rs)
+
+Captura snapshots del sistema antes y despues del engagement:
+
+- **Pre-snapshot**: Estado del sistema antes de cualquier accion
+- **Post-snapshot**: Estado despues de la ejecucion
+- **Comparacion**: Detecta artefactos residuales (tareas, servicios, registry, usuarios, web shells, archivos)
+- **Certificado de Sanitizacion**: Documento legal sellado en SHA-256
+
+### Nuevo: Kill Chain Completo
+
+Comando `red-core kill-chain` ejecuta el pipeline completo:
+
+1. Pre-snapshot del sistema
+2. Reconocimiento (port scan, banner grab, OS fingerprint)
+3. Explotacion (intenta tecnicas contra puertos abiertos)
+4. Post-snapshot + comparacion + limpieza + certificado
+
+### CLI v0.5.0 — 14 comandos
+
+| Comando | Descripcion |
+|---------|-------------|
+| red-core info | Info del sistema |
+| red-core techniques | Lista 31 tecnicas MITRE |
+| red-core technique <id> | Detalle + compliance |
+| red-core authorize | Flujo de autorizacion |
+| red-core compliance | Frameworks soportados |
+| red-core recon <target> | Reconocimiento completo |
+| red-core scan | Escaneo de puertos |
+| red-core discover | Descubrimiento de red |
+| red-core exploits | Lista 15 tecnicas de explotacion |
+| red-core exploit | Ejecutar tecnica (simulacion) |
+| red-core snapshot | Capturar estado del sistema |
+| red-core compare | Comparar pre/post estado |
+| red-core cleanup | Script de limpieza + certificado |
+| red-core kill-chain | Pipeline completo |
+
+### Tests v0.5.0
+
+82 unit tests across 10 modules, 0 failures.
+
+| Modulo | Tests | Cobertura |
+|--------|-------|-----------|
+| evidence.rs | 12 | Chain integrity, tamper detection, JSON export |
+| mitre.rs | 9 | 31 techniques, filtering, coverage |
+| impact.rs | 7 | Business impact, financial, regulatory |
+| compliance.rs | 7 | 9 frameworks, PTES mapping |
+| recon.rs | 16 | Port scan, banner grab, OS fingerprint, port parsing |
+| exploit.rs | 17 | 15 techniques, execution, cleanup tracking, evidence sealing |
+| cleanup.rs | 6 | Track, revert, script generation, evidence sealing |
+| state.rs | 11 | Snapshots, comparison, residual detection, certificates |
+| **TOTAL** | **82** | **10 modulos** |
+
+---
+
+**Hyperium RED-CORE v0.5.0 -- Informe Tecnico Completo (Fase 1 + Fase 2)**
 **Hyperiumia -- https://github.com/hyperiumia/hyperium-red-core**
 **Contacto: hyperiumia@protonmail.com**
