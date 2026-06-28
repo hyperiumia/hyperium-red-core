@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a2e;
+    --border: #2a2a40;
+    --red: #ff0040;
+    --orange: #ff6b35;
+    --yellow: #ffc107;
+    --green: #00e676;
+    --blue: #2196f3;
+    --cyan: #00bcd4;
+    --text: #e8e8f0;
+    --muted: #8888a0;
+    --dim: #555570;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    background: var(--bg);
+    color: var(--text);
+    padding: 40px;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 20%, rgba(255,0,64,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 80%, rgba(33,150,243,0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 24px; border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--red), #cc0033);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; color: white;
+    box-shadow: 0 0 20px rgba(255,0,64,0.3);
+  }
+  .header-title h1 {
+    font-size: 20px; font-weight: 700; color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .header-title p { font-size: 10px; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+  .badge {
+    padding: 6px 14px; border-radius: 6px;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .badge-green { background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.3); color: var(--green); }
+  .badge-red { background: rgba(255,0,64,0.1); border: 1px solid rgba(255,0,64,0.3); color: var(--red); }
+  .badge-cyan { background: rgba(0,188,212,0.1); border: 1px solid rgba(0,188,212,0.3); color: var(--cyan); }
+  .section-title {
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--muted); margin-bottom: 20px;
+  }
+  pre {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    color: var(--text);
+    white-space: pre;
+  }
+  .footer {
+    margin-top: 32px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .footer p { font-size: 10px; color: var(--dim); letter-spacing: 1px; }
+  .stats-row { display: flex; gap: 16px; margin-bottom: 28px; }
+  .stat {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px; text-align: center;
+  }
+  .stat-val { font-size: 28px; font-weight: 700; color: var(--text); }
+  .stat-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--dim); margin-top: 4px; }
+</style>
+
+</head><body>
+<div class="header">
+  <div class="header-left">
+    <div class="logo">RC</div>
+    <div class="header-title">
+      <h1>Hyperium RED-CORE</h1>
+      <p>Lateral Movement + Active Directory Enumeration</p>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;">
+    <span class="badge badge-green">v1.0.0</span>
+    <span class="badge badge-cyan">25 TECHNIQUES</span>
+  </div>
+</div>
+<div class="section-title">Lateral Movement (12 techniques - 8 protocols)</div>
+<pre>Hyperium RED-CORE -- Lateral Movement Techniques (12)
+
+  ID           Name                                Protocol         Port     Hash     Detect    
+  -----------------------------------------------------------------------------------------
+  T1021.001    RDP Lateral Movement                RDP              3389     no       Medium    
+  T1021.002    SMB/Windows Admin Shares            SMB              445      no       Medium    
+  T1021.003    DCOM Lateral Movement               DCOM             135      no       Hard      
+  T1021.004    WinRM Lateral Movement              WinRM            5985     no       Medium    
+  T1021.004    PowerShell Remoting (Enter-PSSession) WinRM            5985     no       Medium    
+  T1021.004    SSH Lateral Movement                SSH              22       no       Easy      
+  T1550.002    Pass-the-Hash (PsExec)              Pass-the-Hash    445      YES      Hard      
+  T1550.002    Pass-the-Hash (SMBExec)             Pass-the-Hash    445      YES      Hard      
+  T1550.003    Pass-the-Ticket                     Pass-the-Ticket  88       no       Hard      
+  T1550.003    Overpass-the-Hash                   Overpass-the-Hash 88       YES      Hard      
+  T1047        WMI Lateral Movement                WMI              135      no       Medium    
+  T1570        Lateral Tool Transfer               SMB              445      no       Easy</pre>
+<br>
+<div class="section-title">Active Directory Enumeration (13 techniques + Attack Paths)</div>
+<pre>Hyperium RED-CORE -- Active Directory Enumeration (13)
+
+  ID           Name                                   ObjectType   Severity     Auth     Detect    
+  --------------------------------------------------------------------------------------------
+  T1087.002    Domain Account Enumeration             User         MEDIUM       YES      Easy      
+  T1087.002    Domain Admin Enumeration               Group        HIGH         YES      Easy      
+  T1018        Domain Computer Enumeration            Computer     LOW          YES      Easy      
+  T1482        Domain Trust Enumeration               Domain Trust HIGH         YES      Easy      
+  T1482        Forest Trust Enumeration               Domain Trust HIGH         YES      Medium    
+  T1558        Kerberoastable SPN Enumeration         SPN          HIGH         YES      Easy      
+  T1558        AS-REP Roastable Account Enumeration   User         HIGH         no       Easy      
+  T1069.002    GPO Enumeration                        GPO          MEDIUM       YES      Easy      
+  T1069.002    OU Structure Enumeration               OU           LOW          YES      Easy      
+  T1557        Unconstrained Delegation Enumeration   Computer     CRITICAL     YES      Easy      
+  T1649        Certificate Template Enumeration (ESC) Certificate Template CRITICAL     YES      Medium    
+  T1087.002    DNS Record Enumeration                 DNS Record   LOW          YES      Easy      
+  T1207        Kerberos Policy Enumeration            Kerberos Policy MEDIUM       YES      Easy</pre>
+<div class="footer"><p>Hyperium RED-CORE v1.0.0 - github.com/hyperiumia/hyperium-red-core</p></div>
+</body></html>
